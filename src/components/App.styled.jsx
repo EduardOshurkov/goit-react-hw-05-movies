@@ -9,7 +9,6 @@ export const Container = styled.div`
 
 export const Header = styled.header`
   display: flex;
-  
   gap: 12px;
   padding: 8px 0;
   margin-bottom: 16px;

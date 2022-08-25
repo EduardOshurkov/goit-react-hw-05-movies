@@ -1,6 +1,7 @@
 import * as getPopularMovies from '../../components/API/apiServices';
 import { useEffect, useState } from "react";
 import { Link } from 'components/App.styled';
+import { FilmCard, FilmList } from './Home.styled';
 
 
 const Home = () => {
@@ -23,6 +24,7 @@ const Home = () => {
                 setState(prevState => {
                     return {
                         ...prevState,
+                        loading: false,
                         movies: [...prevState.movies, ...results]
                     }
                 })
@@ -37,16 +39,22 @@ const Home = () => {
     }, [])
 
     const { movies, loading, error } = state;
-    const elements = movies.map(({ id, title }) => <li key={id}><Link to={`/movies/${id}`}>{title}</Link></li>)
+    const elements = movies.map(({ id, original_title, poster_path, name }) => <div key={id}>
+        <Link to={`/movies/${id}`} key={id}>
+        <FilmList>
+            <img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt="" />
+            <h2>{original_title || name}</h2>
+        </FilmList>
+    </Link>
+    </div>)
     
     return (
         <div>
             {loading && <p>...Loading</p>}
             {error && <p>Error</p>}
-            <ul>{elements}</ul>
+                <FilmCard>{elements}</FilmCard>
         </div>
     );
 };
-
 
 export default Home;

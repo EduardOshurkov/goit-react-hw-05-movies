@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getFilmInfo } from "components/API/apiServices";
+import { FilmContainer, FilmInformation } from "./Film.styled";
 
 
 const FilmInfo = () => {
@@ -10,41 +11,54 @@ const FilmInfo = () => {
         error: null,
     });
 
-    const {id} = useParams();
+    const { id } = useParams();
 
-    useEffect(() => { 
+    useEffect(() => {
         const getFilms = async () => {
             try {
-                 setState(prevState => ({
-                ...prevState,
-                loading: true,
-                error: null,
-                 }));
+                setState(prevState => ({
+                    ...prevState,
+                    loading: true,
+                    error: null,
+                }));
                 
-                const {results} = await getFilmInfo();
+                const results = await getFilmInfo(id);
                 setState(prevState => {
                     return {
                         ...prevState,
-                        movies: [...prevState.movies, ...results]
+                        film: results,
                     }
                 })
             } catch (error) {
                 setState(prevState => ({
                     ...prevState,
                     error,
-                }))
-            }
-     }
+                }));
+            };
+        };
         getFilms();
-    }, [])
+    }, [id])
 
-    const { original_title } = state.film;
+    const { title, vote_avarage, tagline, genres, poster_path, overview } = state.film;
 
-     return (
-         <div>
-             <h2>{original_title}</h2>
-    </div>
-)
-}
+    let genresFilm = []
+    for (const key in genres) {
+        const genre = genres[key];
+        genresFilm.push(genre.name)
+    }
+
+    return (
+        <FilmContainer>
+            <img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt={title} />
+            <FilmInformation>
+            <h2>{title}</h2>
+            <p>{tagline}</p>
+            <p>{vote_avarage}</p>
+            <p>{overview}</p>
+            <p>{genresFilm.join(', ')}</p>
+            </FilmInformation>
+        </FilmContainer>
+    )
+};
 
 export default FilmInfo;
