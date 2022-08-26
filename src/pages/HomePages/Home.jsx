@@ -1,5 +1,6 @@
 import * as getPopularMovies from '../../components/API/apiServices';
 import { useEffect, useState } from "react";
+import DefaultImage from '../../../src/no-picture-available-icon-20.jpeg';
 import { Link } from 'components/App.styled';
 import { FilmCard, FilmList } from './Home.styled';
 
@@ -11,16 +12,16 @@ const Home = () => {
         error: null,
     });
 
-    useEffect(() => { 
+    useEffect(() => {
         const getFilms = async () => {
             try {
-                 setState(prevState => ({
-                ...prevState,
-                loading: true,
-                error: null,
-                 }));
+                setState(prevState => ({
+                    ...prevState,
+                    loading: true,
+                    error: null,
+                }));
                 
-                const {results} = await getPopularMovies.getMovies();
+                const { results } = await getPopularMovies.getMovies();
                 setState(prevState => {
                     return {
                         ...prevState,
@@ -34,15 +35,16 @@ const Home = () => {
                     error,
                 }))
             }
-     }
+        }
         getFilms();
-    }, [])
+    }, []);
 
     const { movies, loading, error } = state;
     const elements = movies.map(({ id, original_title, poster_path, name }) => <div key={id}>
         <Link to={`/movies/${id}`} key={id}>
         <FilmList>
-            <img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt="" />
+             {poster_path ? (<img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt="" />)
+                : (<img src={DefaultImage} alt="" width='90' height='135' />)}
             <h2>{original_title || name}</h2>
         </FilmList>
     </Link>
