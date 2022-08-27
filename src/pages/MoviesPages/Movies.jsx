@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, useLocation } from "react-router-dom";
+import { useSearchParams, useLocation, Link } from "react-router-dom";
 import { getSearchFilm } from "components/API/apiServices";
-import DefaultImage from '../../../src/no-picture-available-icon-20.jpeg';
-import { Link } from "react-router-dom";
+import Loader from "components/Loader/Loader";
 import FilmSearch from "components/FilmSearch/FilmSearch";
 import { FilmCard, FilmList } from "./Movies.styled";
+import DefaultImage from '../../image/no-image.webp';
 
 
 
@@ -13,6 +13,7 @@ const Movies = () => {
         items: [],
         loading: false,
         error: null,
+        isEmpty: false,
     });
 
     const location = useLocation();
@@ -26,6 +27,7 @@ const Movies = () => {
                 setState(prevState => ({
                     ...prevState,
                     loading: true,
+                    isEmpty: true,
                 }));
                 const { data } = await getSearchFilm(search)
                 setState(prevState => ({
@@ -57,7 +59,7 @@ const Movies = () => {
     }
 
 
-    const { items, loading, error } = state;
+    const { items, loading, error, isEmpty } = state;
     const elements = items.map(({ id, original_title, poster_path, name }) => <div key={id}>
         <Link state={{from: location}} to={`/movies/${id}`} key={id}>
             <FilmList>
@@ -70,10 +72,11 @@ const Movies = () => {
 
     return (
         <div>
-            {loading && <p>...Loading</p>}
             {error && <p>Error</p>}
             <FilmSearch onSubmit={changeSearch} />
+            {loading && <Loader/>}
             <FilmCard>{items.length > 0 && elements}</FilmCard>
+            {isEmpty && <h1>Sorry no results, try again</h1>}
         </div>)
     
 };

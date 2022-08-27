@@ -1,8 +1,9 @@
 import * as getPopularMovies from '../../components/API/apiServices';
 import { useEffect, useState } from "react";
 import { useLocation } from 'react-router-dom';
-import DefaultImage from '../../../src/no-picture-available-icon-20.jpeg';
-import { Link } from 'components/App.styled';
+import Loader from 'components/Loader/Loader';
+import DefaultImage from '../../image/no-image.webp';
+import { Link } from 'components/UserMenu/UserMenu.styled';
 import { FilmCard, FilmList } from './Home.styled';
 
 
@@ -55,7 +56,7 @@ const Home = () => {
     
     return (
         <div>
-            {loading && <p>...Loading</p>}
+             {loading && <Loader/>}
             {error && <p>Error</p>}
                 <FilmCard>{elements}</FilmCard>
         </div>

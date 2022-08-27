@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getFilmInfo } from "components/API/apiServices";
+import Loader from "components/Loader/Loader";
 import { Outlet, useNavigate, useLocation, useParams } from "react-router-dom";
-import DefaultImage from '../../../src/no-picture-available-icon-20.jpeg';
-import { FilmContainer, FilmInformation, Link } from "./Film.styled";
+import DefaultImage from '../../image/no-image.webp';
+import { FilmContainer, FilmInformation, Link, Button } from "./Film.styled";
 
 
 const FilmInfo = () => {
@@ -58,11 +59,11 @@ const FilmInfo = () => {
 
     return (
         <FilmContainer>
-            {loading && <p>...Loading</p>}
+             {loading && <Loader/>}
             {error && <p>Error</p>}
             {poster_path ? (<img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt={title} />) : (<img src={DefaultImage} alt="" width='90' height='135' />)}
             <FilmInformation>
-                <button type="button" onClick={goBack}>Go back</button>
+                <Button type="button" onClick={goBack}>Go back</Button>
                 <h2>{title}</h2>
                 <p>{tagline}</p>
                 <p>{vote_avarage}</p>

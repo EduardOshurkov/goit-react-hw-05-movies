@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { getFilmCast } from "components/API/apiServices";
 import { useParams } from "react-router-dom";
+import Loader from "components/Loader/Loader";
 import { CastList, CastBlock, CastCard, CastPhoto } from "./FilmCastInfo.styled";
-import DefaultImage from '../../../src/no-picture-available-icon-20.jpeg';
+import DefaultImage from '../../image/no photo.jpeg';
 
 
 const FilmCastInfo = () => {
@@ -10,6 +11,7 @@ const FilmCastInfo = () => {
         cast: [],
         loading: false,
         error: null,
+        isEmpty: false, 
     });
 
     const { id } = useParams();
@@ -20,6 +22,7 @@ const FilmCastInfo = () => {
                 setState(prevState => ({
                     ...prevState,
                     loading: true,
+                    isEmpty: true,
                     error: null,
                 }));
                 
@@ -30,6 +33,7 @@ const FilmCastInfo = () => {
                         cast: [...prevState.cast, ...cast],
                         loading: false,
                         error: null,
+                        isEmpty:false,
                     }
                 })
             } catch (error) {
@@ -42,7 +46,7 @@ const FilmCastInfo = () => {
         getCast();
     }, [id]);
 
-    const { cast, loading, error } = state;
+    const { cast, loading, error, isEmpty } = state;
     const elementsCast = cast.map(({ id, name, character, profile_path}) => <CastBlock key={id}>
         <CastCard>
             {profile_path ? (<CastPhoto src={`https://image.tmdb.org/t/p/w300/${profile_path}`} alt="" />)
@@ -54,7 +58,8 @@ const FilmCastInfo = () => {
 
     return (
         <div>
-            {loading && <p>...Loading</p>}
+            {isEmpty && <h1>Sorry no information</h1>}
+             {loading && <Loader/>}
             {error && <p>Error</p>}
             <CastList>{elementsCast}</CastList>
         </div>

@@ -24,4 +24,14 @@ export const Link = styled(NavLink)`
   }
 `;
 
+export const Button = styled.button`
+padding: 8px 16px;
+background-color: orangered;
+  border-radius: 4px;
+  border: none;
+  text-decoration: none;
+  color: white;
+  font-weight: 500;
+`
+
 
