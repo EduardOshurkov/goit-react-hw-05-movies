@@ -1,9 +1,9 @@
-import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { getFilmInfo } from "components/API/apiServices";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate, useLocation, useParams } from "react-router-dom";
 import DefaultImage from '../../../src/no-picture-available-icon-20.jpeg';
 import { FilmContainer, FilmInformation, Link } from "./Film.styled";
+
 
 const FilmInfo = () => {
     const [state, setState] = useState({
@@ -13,6 +13,10 @@ const FilmInfo = () => {
     });
 
     const { id } = useParams();
+    const location = useLocation();
+    const from  = location.state?.from || '/movies';
+    const navigate = useNavigate();
+    const goBack = () => navigate(from);
 
     useEffect(() => {
         const getFilms = async () => {
@@ -45,6 +49,7 @@ const FilmInfo = () => {
     const { loading, error } = state;
     const { title, vote_avarage, tagline, genres, poster_path, overview } = state.film;
 
+
     let genresFilm = []
     for (const key in genres) {
         const genre = genres[key];
@@ -57,13 +62,14 @@ const FilmInfo = () => {
             {error && <p>Error</p>}
             {poster_path ? (<img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt={title} />) : (<img src={DefaultImage} alt="" width='90' height='135' />)}
             <FilmInformation>
+                <button type="button" onClick={goBack}>Go back</button>
                 <h2>{title}</h2>
                 <p>{tagline}</p>
                 <p>{vote_avarage}</p>
                 <p>{overview}</p>
                 <p>{genresFilm.join(', ')}</p>
-                <Link to='cast'>Cast</Link>
-                <Link to='reviews'>Reviews</Link>
+                <Link state={{from}} to='cast'>Cast</Link>
+                <Link state={{from}} to='reviews'>Reviews</Link>
                 <Outlet />
             </FilmInformation>      
         </FilmContainer>

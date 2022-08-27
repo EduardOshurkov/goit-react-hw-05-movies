@@ -1,10 +1,12 @@
 import { Routes, Route } from "react-router-dom";
-import Home from "pages/HomePages/Home";
-import Movies from "pages/MoviesPages/Movies";
-import FilmInfo from "pages/Film/FilmInfo";
-import FilmCastInfo from "pages/CastPages/FilmCastInfo";
-import Reviews from "pages/Reviews/Reviews";
 import { Container, Header, Link } from "./App.styled";
+import { lazy, Suspense } from "react";
+const Home = lazy(() => import ("pages/HomePages/Home"));
+const Movies = lazy(() => import ("pages/MoviesPages/Movies"));
+const FilmInfo = lazy(() => import ("pages/Film/FilmInfo"));
+const FilmCastInfo = lazy(() => import ("pages/CastPages/FilmCastInfo"));
+const Reviews = lazy(() => import("pages/Reviews/Reviews"));
+
 
 
 
@@ -17,7 +19,7 @@ export const App = () => {
         <Link to="/movies">Movies</Link>
       </Header>
 
-
+      <Suspense fallback={<p>...Load page</p>}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/movies" element={<Movies />} />
@@ -26,7 +28,7 @@ export const App = () => {
           <Route path="reviews" element={<Reviews />} />
         </Route>
       </Routes>
-      
+      </Suspense>
     </Container>
   );
 };
