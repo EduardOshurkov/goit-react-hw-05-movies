@@ -11,7 +11,6 @@ const FilmCastInfo = () => {
         cast: [],
         loading: false,
         error: null,
-        isEmpty: false, 
     });
 
     const { id } = useParams();
@@ -22,7 +21,6 @@ const FilmCastInfo = () => {
                 setState(prevState => ({
                     ...prevState,
                     loading: true,
-                    isEmpty: true,
                     error: null,
                 }));
                 
@@ -33,7 +31,6 @@ const FilmCastInfo = () => {
                         cast: [...prevState.cast, ...cast],
                         loading: false,
                         error: null,
-                        isEmpty:false,
                     }
                 })
             } catch (error) {
@@ -46,7 +43,7 @@ const FilmCastInfo = () => {
         getCast();
     }, [id]);
 
-    const { cast, loading, error, isEmpty } = state;
+    const { cast, loading, error } = state;
     const elementsCast = cast.map(({ id, name, character, profile_path}) => <CastBlock key={id}>
         <CastCard>
             {profile_path ? (<CastPhoto src={`https://image.tmdb.org/t/p/w300/${profile_path}`} alt="" />)
@@ -58,10 +55,9 @@ const FilmCastInfo = () => {
 
     return (
         <div>
-            {isEmpty && <h1>Sorry no information</h1>}
-             {loading && <Loader/>}
+            {loading && <Loader/>}
             {error && <p>Error</p>}
-            <CastList>{elementsCast}</CastList>
+            {cast.length !== 0 ? (<CastList>{elementsCast}</CastList>) : (<h3>Sorry no information</h3>)}
         </div>
     );
 };

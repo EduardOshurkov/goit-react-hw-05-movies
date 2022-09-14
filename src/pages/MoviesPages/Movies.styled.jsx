@@ -3,11 +3,12 @@ import styled from "@emotion/styled";
 
 
 export const FilmCard = styled.ul`
-min-width: 280px;
-    flex-wrap: wrap;
-    display: flex;
-    list-style: none;
-    padding: 0;
+@media screen and (min-width: 552px) {
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  }
+display: grid;
+justify-content: center;
+list-style: none;
 `
 
 

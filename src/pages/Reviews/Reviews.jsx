@@ -2,14 +2,12 @@ import { getFilmReviews } from "components/API/apiServices";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import Loader from "components/Loader/Loader";
-import { ReviewsAuthor, ReviewsList } from "./Reviews.styled";
 
 const Reviews = () => {
     const [state, setState] = useState({
         reviews: [],
         loading: false,
         error: null,
-        isEmpty: false,
     });
 
     const { id } = useParams();
@@ -20,7 +18,6 @@ const Reviews = () => {
                 setState(prevState => ({
                     ...prevState,
                     loading: true,
-                    isEmpty: true,
                     error: null,
                 }));
                 
@@ -31,7 +28,6 @@ const Reviews = () => {
                         reviews: [...prevState.reviews, ...data.results],
                         loading: false,
                         error: null,
-                        isEmpty:false,
                     }
                 })
             } catch (error) {
@@ -44,21 +40,20 @@ const Reviews = () => {
         getCast();
     }, [id]);
 
-    const { reviews, loading, error, isEmpty } = state;
+    const { reviews, loading, error } = state;
     const elements = reviews.map(({ id, author, content }) => <div key={id}>
-        <ReviewsList>
-            <ReviewsAuthor>Author: {author}</ReviewsAuthor>
+        <li>
+            <h3>Author: {author}</h3>
             <p>{content}</p>
-        </ReviewsList>
+        </li>
     </div>)
 
 
     return (
         <div>
-            {isEmpty && <h1>Sorry no information</h1>}
-             {loading && <Loader/>}
+            {loading && <Loader/>}
             {error && <p>Error</p>}
-            <ul>{elements}</ul>
+            {reviews.length !== 0 ? (<ul>{elements}</ul>) : (<h3>Sorry no information</h3>)}
         </div>
         
     )

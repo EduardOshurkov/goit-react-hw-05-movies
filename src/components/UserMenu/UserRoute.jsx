@@ -1,6 +1,7 @@
 import { lazy, Suspense } from "react";
 import { Routes, Route } from "react-router-dom";
 import { Container } from "./UserMenu.styled";
+import Loader from "components/Loader/Loader";
 const Home = lazy(() => import ("pages/HomePages/Home"));
 const Movies = lazy(() => import ("pages/MoviesPages/Movies"));
 const FilmInfo = lazy(() => import ("pages/Film/FilmInfo"));
@@ -11,7 +12,7 @@ const Reviews = lazy(() => import("pages/Reviews/Reviews"));
 const UserRoute = () => {
     return (
         <Container>
-        <Suspense fallback={<p>...Load page</p>}>
+        <Suspense fallback={<Loader/>}>
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/movies" element={<Movies />} />

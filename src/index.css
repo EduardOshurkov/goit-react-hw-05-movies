@@ -7,6 +7,8 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #252323;
+   
 }
 
 code {
@@ -17,4 +19,41 @@ code {
 img {
 height: 100%;
 max-width: 100%;
+}
+
+a {
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+text-decoration: none;
+color: inherit;
+}
+
+h2{
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 30px;
+color: #FDFEFF;
+}
+
+h3{
+  font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 25px;
+    color: #FDFEFF;
+}
+
+p{
+  font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    color: #FDFEFF;
+}
+
+li{
+  list-style: none;
 }

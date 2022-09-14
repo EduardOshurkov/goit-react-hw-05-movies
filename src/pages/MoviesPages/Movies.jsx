@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useSearchParams, useLocation, Link } from "react-router-dom";
+import { useSearchParams, useLocation, NavLink } from "react-router-dom";
 import { getSearchFilm } from "components/API/apiServices";
 import Loader from "components/Loader/Loader";
 import FilmSearch from "components/FilmSearch/FilmSearch";
@@ -61,13 +61,13 @@ const Movies = () => {
 
     const { items, loading, error, isEmpty } = state;
     const elements = items.map(({ id, original_title, poster_path, name }) => <div key={id}>
-        <Link state={{from: location}} to={`/movies/${id}`} key={id}>
+        <NavLink state={{from: location}} to={`/movies/${id}`} key={id}>
             <FilmList>
                 {poster_path ? (<img src={`https://image.tmdb.org/t/p/w300/${poster_path}`} alt="" />)
                     : (<img src={DefaultImage} alt="" width='90' height='135' />)}
                 <h2>{original_title || name}</h2>
             </FilmList>
-        </Link>
+        </NavLink>
     </div>)
 
     return (
@@ -76,7 +76,7 @@ const Movies = () => {
             <FilmSearch onSubmit={changeSearch} />
             {loading && <Loader/>}
             <FilmCard>{items.length > 0 && elements}</FilmCard>
-            {isEmpty && <h1>Sorry no results, try again</h1>}
+            {isEmpty && <h2>Sorry no results, try again</h2>}
         </div>)
     
 };

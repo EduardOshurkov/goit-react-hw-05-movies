@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 
-
-
-
 export const CastList = styled.ul`
-display:flex;
 flex-wrap: wrap;
+grid-template-columns: repeat(auto-fit, minmax(7rem, 0fr));
+display: grid;
+justify-content: center;
+list-style: none;
 `
 
 export const CastBlock = styled.div`
@@ -13,7 +13,6 @@ max-width:100px;
 `
 
 export const CastCard = styled.li`
-list-style:none;
 margin-right: 10px;
 `
 
